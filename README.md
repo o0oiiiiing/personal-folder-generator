@@ -9,6 +9,10 @@
 ## ⚙ 개발 환경
 - Python 3.13.1
 - Tkinter
+- tkcalendar: 날짜 선택 기능 구현에 사용
+  ```bash
+  pip install tkcalendar
+  ```
 <br>
 
-🗓 README 최종 수정일 : 2025-05-14
+🗓 README 최종 수정일 : 2025-05-16
