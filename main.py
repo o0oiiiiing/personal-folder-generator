@@ -37,31 +37,29 @@ class BackupFolderApp:
         # 여백
         blank_frame = tk.Frame(self.root)
         blank_frame.pack(pady=10)
+        
+        # 프레임
+        select_frame = tk.Frame(self.root)
+        select_frame.pack(pady=5)
 
         # 폴더 선택
-        folder_frame = tk.Frame(self.root)
-        folder_frame.pack(pady=5)
+        folder_label = tk.Label(select_frame, text="생성할 위치 : ", font=self.app_font)
+        folder_label.grid(row=0, column=0, sticky=tk.W, padx=5)
 
-        folder_label = tk.Label(folder_frame, text="생성할 위치 : ", font=self.app_font)
-        folder_label.pack(side=tk.LEFT, padx=5)
-
-        self.folder_entry = tk.Entry(folder_frame, font=self.app_font, width=35)
+        self.folder_entry = tk.Entry(select_frame, font=self.app_font, width=30)
         self.folder_entry.config(relief="sunken")
         self.folder_entry.insert(0, "폴더를 선택하세요")
-        self.folder_entry.pack(side=tk.LEFT, padx=5)
+        self.folder_entry.grid(row=0, column=1, padx=5)
 
-        folder_btn = self.create_btn("폴더 찾기", self.select_folder, master=folder_frame)
-        folder_btn.pack(side=tk.LEFT, padx=5)
+        folder_btn = self.create_btn("폴더 찾기", self.select_folder, master=select_frame)
+        folder_btn.grid(row=0, column=2, padx=5)
 
         # 날짜 선택
-        date_frame = tk.Frame(self.root)
-        date_frame.pack(pady=5)
+        date_label = tk.Label(select_frame, text="날짜 : ", font=self.app_font)
+        date_label.grid(row=1, column=0, sticky=tk.E, padx=5, pady=5)
 
-        date_label = tk.Label(date_frame, text="날짜 : ", font=self.app_font)
-        date_label.pack(side=tk.LEFT, padx=5)
-
-        self.calendar = DateEntry(date_frame, font=self.app_font, foreground='white', borderwidth=2, date_pattern='yyyy-mm-dd')
-        self.calendar.pack(side=tk.LEFT, pady=5)
+        self.calendar = DateEntry(select_frame, font=self.app_font, foreground='white', borderwidth=2, date_pattern='yyyy-mm-dd')
+        self.calendar.grid(row=1, column=1, sticky=tk.EW, padx=5, pady=5)
         
         # 확인, 닫기 버튼
         button_frame = tk.Frame(self.root)
