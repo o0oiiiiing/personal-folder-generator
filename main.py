@@ -1,6 +1,7 @@
 import tkinter as tk # GUI 애플리케이션을 만들기 위한 모듈
 from tkinter import font # 폰트 설정을 위한 모듈
 from tkinter import filedialog # 파일 대화상자를 위한 모듈
+from tkcalendar import DateEntry # 날짜 선택을 위한 모듈
 
 class BackupFolderApp:
     # ───────────────────── 초기 설정 및 실행 ─────────────────────
@@ -59,6 +60,9 @@ class BackupFolderApp:
         date_label = tk.Label(date_frame, text="날짜 : ", font=self.app_font)
         date_label.pack(side=tk.LEFT, padx=5)
 
+        self.calendar = DateEntry(date_frame, font=self.app_font, foreground='white', borderwidth=2, date_pattern='yyyy-mm-dd')
+        self.calendar.pack(side=tk.LEFT, pady=5)
+        
         # 확인, 닫기 버튼
         button_frame = tk.Frame(self.root)
         button_frame.pack(pady=10)
