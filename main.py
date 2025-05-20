@@ -193,7 +193,6 @@ class BackupFolderApp:
         """
         folder_path = filedialog.askdirectory()
         if folder_path:
-            print("선택한 폴더 경로:", folder_path)
             self.folder_entry.delete(0, tk.END)
             self.folder_entry.insert(0, folder_path)
             
@@ -285,7 +284,7 @@ class BackupFolderApp:
             full_path = os.path.join(date_folder_path, folder_name)
             os.makedirs(full_path, exist_ok=True)
         
-        tk.messagebox.showinfo("완료")
+        tk.messagebox.showinfo("완료", "폴더 생성이 완료되었습니다.")
         
         self.root.quit()
 
