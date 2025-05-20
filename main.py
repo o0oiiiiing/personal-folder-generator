@@ -94,24 +94,24 @@ class BackupFolderApp:
         
         # ─────────────── [3] 하위 폴더명 입력 및 리스트 관리 ───────────────
         # 리스트박스를 사용해 하위 폴더명을 추가/삭제할 수 있는 UI 구성
-        target_folder_label = tk.Label(select_frame, text="생성할 폴더 : ", font=self.app_font)
-        target_folder_label.grid(row=2, column=0, sticky=tk.NE, padx=5, pady=5)
+        subfolder_label = tk.Label(select_frame, text="생성할 폴더 : ", font=self.app_font)
+        subfolder_label.grid(row=2, column=0, sticky=tk.NE, padx=5, pady=5)
         
-        target_folder_frame = tk.Frame(select_frame)
-        target_folder_frame.grid(row=2, column=1, sticky=tk.EW, padx=5, pady=5)
-        target_folder_frame.rowconfigure(0, weight=1)
-        target_folder_frame.columnconfigure(0, weight=1)
+        subfolder_frame = tk.Frame(select_frame)
+        subfolder_frame.grid(row=2, column=1, sticky=tk.EW, padx=5, pady=5)
+        subfolder_frame.rowconfigure(0, weight=1)
+        subfolder_frame.columnconfigure(0, weight=1)
         
-        self.scrollbar = tk.Scrollbar(target_folder_frame, width=20)
+        self.scrollbar = tk.Scrollbar(subfolder_frame, width=20)
         
-        self.listbox = tk.Listbox(target_folder_frame, yscrollcommand=self.scrollbar.set, font=self.app_font, height=6)
+        self.listbox = tk.Listbox(subfolder_frame, yscrollcommand=self.scrollbar.set, font=self.app_font, height=6, selectmode="extended")
         self.listbox.grid(row=0, column=0, sticky=tk.EW)
         
         self.scrollbar.grid(row=0, column=1, sticky="ns")
         self.scrollbar.config(command=self.listbox.yview)
         
-        listbox_btn_frame = tk.Frame(target_folder_frame)
-        listbox_btn_frame.grid(row=1, column=0, columnspan=2, sticky=tk.EW)
+        listbox_btn_frame = tk.Frame(subfolder_frame)
+        listbox_btn_frame.grid(row=1, columnspan=2, sticky=tk.EW)
         listbox_btn_frame.columnconfigure(0, weight=1)
         listbox_btn_frame.columnconfigure(1, weight=1)
         
@@ -126,8 +126,8 @@ class BackupFolderApp:
         btn_frame = tk.Frame(self.root)
         btn_frame.pack(pady=(30, 0))
 
-        confirm_btn = self.create_btn("생성", self.create_backup_folders, master=btn_frame)
-        confirm_btn.pack(side=tk.LEFT, padx=20)
+        create_btn = self.create_btn("생성", self.create_backup_folders, master=btn_frame)
+        create_btn.pack(side=tk.LEFT, padx=20)
 
         close_btn = self.create_btn("닫기", self.root.quit, master=btn_frame)
         close_btn.pack(side=tk.LEFT, padx=20)
