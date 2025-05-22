@@ -213,7 +213,7 @@ class BackupFolderApp:
         if value:
             normalized_value = value.lower() # 대소문자 구분 없이 비교하기 위해 소문자로 변환
             existing_items = self.listbox.get(0, tk.END)
-            normalized_items = [item.strip().lower() for item in existing_items]
+            normalized_items = [item.lower() for item in existing_items]
             
             if normalized_value in normalized_items:
                 tk.messagebox.showwarning("중복", f"'{value}'은(는) 이미 존재하는 폴더명입니다.")
