@@ -207,6 +207,12 @@ class BackupFolderApp:
             
     
     def update_last_selected_path(self, folder_path):
+        """
+        선택한 폴더 경로를 'folder_log.json' 파일에 저장합니다.
+
+        Args:
+            folder_path (str): 사용자가 선택한 폴더 경로 문자열.
+        """ 
         log_file = "folder_log.json"
         data = {}
 
