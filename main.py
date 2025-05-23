@@ -29,7 +29,6 @@ class BackupFolderApp:
 
         self.root.mainloop()
     
-    
     # ───────────────────── 윈도우 크기 및 위치 설정 ─────────────────────
     def setup_window(self):
         """
@@ -54,7 +53,6 @@ class BackupFolderApp:
         position_left = int((screen_width - window_width) / 2)
 
         self.root.geometry(f"{window_width}x{window_height}+{position_left}+{position_top}")
-
 
     # ───────────────────── 위젯 생성 ─────────────────────
     def create_widgets(self):
@@ -132,8 +130,7 @@ class BackupFolderApp:
         close_btn = self.create_btn("닫기", self.root.quit, master=btn_frame)
         close_btn.pack(side=tk.LEFT, padx=20)
         
-        
-    # ────────────── 저장된 폴더 이름 불러오기 ──────────────
+    # ───────────────────── 저장된 폴더 이름 불러오기 ─────────────────────
     def load_saved_settings(self):
         """
         이전에 저장된 폴더 이름들을 JSON 파일에서 불러와 리스트박스에 표시합니다.
@@ -161,7 +158,6 @@ class BackupFolderApp:
             except json.JSONDecodeError:
                 pass
     
-    
     # ───────────────────── 버튼 생성 ─────────────────────
     def create_btn(self, text, command, master=None):
         """
@@ -188,7 +184,6 @@ class BackupFolderApp:
             activebackground="#d9d9d9"
         )
     
-    
     # ───────────────────── 폴더 선택 ─────────────────────
     def select_folder(self):
         """
@@ -203,9 +198,9 @@ class BackupFolderApp:
             self.folder_entry.delete(0, tk.END)
             self.folder_entry.insert(0, folder_path)
             
-        self.update_last_selected_path(folder_path) # 선택한 폴더 경로를 로그 파일에 저장
+        self.update_last_selected_path(folder_path)
             
-    
+    # ───────────────────── 로그 파일 갱신 (last_selected_path) ─────────────────────
     def update_last_selected_path(self, folder_path):
         """
         선택한 폴더 경로를 'folder_log.json' 파일에 저장합니다.
@@ -230,8 +225,7 @@ class BackupFolderApp:
         # 다시 저장
         with open(log_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-            
-            
+                 
     # ───────────────────── 리스트박스에 항목 추가 ─────────────────────
     def add_to_listbox(self):
         """
@@ -263,8 +257,7 @@ class BackupFolderApp:
                 self.listbox.insert(tk.END, item)
             
             self.update_log_file() # 추가 후 로그 파일 갱신 함수 호출
-     
-            
+             
     # ───────────────────── 리스트박스의 항목 삭제 ─────────────────────
     def remove_selected_items(self):
         """
@@ -287,8 +280,7 @@ class BackupFolderApp:
             
         self.update_log_file() # 삭제 후 로그 파일 갱신 함수 호출
     
-    
-    # ───────────────────── 로그 파일 갱신 ─────────────────────
+    # ───────────────────── 로그 파일 갱신 (folder_names) ─────────────────────
     def update_log_file(self):
         """
         리스트박스에 있는 폴더 이름 목록을 JSON 파일에 저장합니다.
@@ -302,7 +294,6 @@ class BackupFolderApp:
         
         with open(log_file, "w") as f:
             json.dump({"folder_names": folder_names}, f, indent=4)
-    
     
     # ───────────────────── 백업 폴더 생성 ─────────────────────        
     def create_backup_folders(self):
