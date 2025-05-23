@@ -25,7 +25,7 @@ class BackupFolderApp:
 
         self.setup_window()
         self.create_widgets()
-        self.load_saved_folder_names()
+        self.load_saved_settings()
 
         self.root.mainloop()
     
@@ -134,23 +134,30 @@ class BackupFolderApp:
         
         
     # ────────────── 저장된 폴더 이름 불러오기 ──────────────
-    def load_saved_folder_names(self):
+    def load_saved_settings(self):
         """
         이전에 저장된 폴더 이름들을 JSON 파일에서 불러와 리스트박스에 표시합니다.
 
         동작:
             - 'folder_log.json' 파일이 존재할 경우 열어서 폴더 이름 목록을 불러옵니다.
             - 'folder_names' 키를 기준으로 리스트를 가져와 리스트박스에 항목으로 추가합니다.
+            - 'last_selected_path' 키를 기준으로 이전에 선택한 폴더 경로를 가져옵니다.
             - JSON 형식 오류가 있을 경우 예외를 무시하고 종료합니다.
         """ 
         log_file = "folder_log.json"
         if os.path.exists(log_file):
             try:
-                with open(log_file, "r") as f:
+                with open(log_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
+                    
                     folder_names = data.get("folder_names", [])
                     for name in folder_names:
                         self.listbox.insert(tk.END, name)
+                        
+                    last_selected_path = data.get("last_selected_path", "")
+                    if last_selected_path:
+                        self.folder_entry.delete(0, tk.END)
+                        self.folder_entry.insert(0, last_selected_path)
             except json.JSONDecodeError:
                 pass
     
@@ -195,6 +202,28 @@ class BackupFolderApp:
         if folder_path:
             self.folder_entry.delete(0, tk.END)
             self.folder_entry.insert(0, folder_path)
+            
+        self.update_last_selected_path(folder_path) # 선택한 폴더 경로를 로그 파일에 저장
+            
+    
+    def update_last_selected_path(self, folder_path):
+        log_file = "folder_log.json"
+        data = {}
+
+        # 기존 데이터 읽기
+        if os.path.exists(log_file):
+            try:
+                with open(log_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError:
+                data = {}
+
+        # last_selected_path 업데이트
+        data["last_selected_path"] = folder_path
+
+        # 다시 저장
+        with open(log_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
             
             
     # ───────────────────── 리스트박스에 항목 추가 ─────────────────────
