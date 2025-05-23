@@ -35,14 +35,14 @@ class BackupFolderApp:
         애플리케이션 창의 크기와 위치를 설정합니다.
 
         창 크기:
-            - 너비: 500px
-            - 높이: 400px
+            - 너비: 450px
+            - 높이: 350px
 
         화면 해상도 기준으로 창을 화면 중앙에 배치합니다.
         """
         # 윈도우 창 크기 설정
-        window_width = 500
-        window_height = 400
+        window_width = 450
+        window_height = 350
 
         # 화면 크기 구하기
         screen_width = self.root.winfo_screenwidth()
@@ -67,7 +67,7 @@ class BackupFolderApp:
         """
         # 전체 영역 프레임
         select_frame = tk.Frame(self.root)
-        select_frame.pack(pady=(15, 0))
+        select_frame.pack(pady=(25, 0))
 
         # ─────────────── [1] 생성 위치 선택 영역 ───────────────
         # 사용자로부터 파일 생성 경로를 입력받는 UI 구성
@@ -122,7 +122,7 @@ class BackupFolderApp:
         # ─────────────── [4] 실행 및 종료 버튼 ───────────────
         # 폴더 생성 실행 및 종료 버튼
         btn_frame = tk.Frame(self.root)
-        btn_frame.pack(pady=(30, 0))
+        btn_frame.pack(side=tk.BOTTOM, pady=(0, 25))
 
         create_btn = self.create_btn("생성", self.create_backup_folders, master=btn_frame)
         create_btn.pack(side=tk.LEFT, padx=20)
