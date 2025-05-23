@@ -206,20 +206,27 @@ class BackupFolderApp:
             - 입력 대화상자를 띄워 추가할 폴더 이름을 입력받습니다.
             - 입력된 폴더명이 기존 리스트박스에 대소문자를 무시하고 존재하지 않는 경우에만 추가합니다.
             - 중복되는 경우 경고 메시지를 출력하고 추가하지 않습니다.
-            - 폴더명이 추가되면 로그 파일 갱신 함수를 호출합니다.
+            - 폴더명이 추가되면 기존 리스트박스 항목에 추가한 뒤, 대소문자 구분 없이 정렬합니다.
+            - 정렬된 리스트박스 상태를 로그 파일에 저장합니다.
         """
         value = tk.simpledialog.askstring("추가", "추가할 폴더명을 입력하세요.")
         
         if value:
             normalized_value = value.lower() # 대소문자 구분 없이 비교하기 위해 소문자로 변환
-            existing_items = self.listbox.get(0, tk.END)
+            existing_items = list(self.listbox.get(0, tk.END))
             normalized_items = [item.lower() for item in existing_items]
             
             if normalized_value in normalized_items:
                 tk.messagebox.showwarning("중복", f"'{value}'은(는) 이미 존재하는 폴더명입니다.")
                 return
             
-            self.listbox.insert(tk.END, value)
+            updated_items = existing_items + [value]
+            updated_items.sort(key=str.lower)
+            
+            self.listbox.delete(0, tk.END)
+            for item in updated_items:
+                self.listbox.insert(tk.END, item)
+            
             self.update_log_file() # 추가 후 로그 파일 갱신 함수 호출
      
             
