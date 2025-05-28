@@ -12,7 +12,7 @@ class BackupFolderApp:
         GUI 애플리케이션을 초기화하고 실행합니다.
 
         주요 작업:
-            - Tkinter 루트 윈도우 생성 및 제목 설정
+            - Tkinter 루트 윈도우 생성 및 제목, 아이콘 설정
             - 기본 폰트 지정
             - 윈도우 레이아웃 및 위젯 생성
             - 저장된 폴더 이름 로드
@@ -20,6 +20,9 @@ class BackupFolderApp:
         """
         self.root = tk.Tk()
         self.root.title("백업 폴더 생성")
+        
+        icon = tk.PhotoImage(file="./app_icon.png")
+        self.root.iconphoto(True, icon)
 
         self.app_font = font.Font(family="Malgun Gothic", size=10)
 
