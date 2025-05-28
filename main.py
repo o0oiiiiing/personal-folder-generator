@@ -301,15 +301,15 @@ class BackupFolderApp:
     # ───────────────────── 백업 폴더 생성 ─────────────────────        
     def create_backup_folders(self):
         """
-        사용자가 지정한 위치에 선택한 날짜를 상위 폴더로 하여 하위 폴더들을 생성합니다.
+        사용자가 지정한 위치에 선택한 날짜를 이름으로 하는 상위 폴더를 만들고,
+        리스트박스에 있는 항목들을 하위 폴더로 생성합니다.
 
         동작:
-            - 입력된 기본 경로(base_path)가 유효한 폴더인지 검사합니다.
-            - 유효하지 않으면 오류 메시지를 출력하고 함수를 종료합니다.
-            - 선택한 날짜를 이름으로 하는 상위 폴더를 생성합니다.
-            - 리스트박스에 있는 폴더 이름들을 하위 폴더로 생성합니다.
-            - 폴더 생성 완료 후 사용자에게 완료 메시지를 표시합니다.
-            - 모든 작업 완료 후 애플리케이션을 종료합니다.
+            - 입력된 기본 경로(base_path)와 날짜(date_str)를 조합한 폴더가 이미 존재하는지 확인합니다.
+            - 이미 존재하면 경고 메시지를 표시하고 작업을 중단합니다.
+            - 존재하지 않으면 상위 폴더를 생성한 뒤, 리스트박스에 포함된 항목들을 해당 폴더 안의 하위 폴더로 생성합니다.
+            - 폴더 생성이 완료되면 사용자에게 완료 메시지를 표시합니다.
+            - 모든 작업이 끝나면 애플리케이션을 종료합니다.
         """
         base_path = self.folder_entry.get() # 생성할 위치
         date_str = self.calendar.get_date().strftime("%Y-%m-%d") # 선택한 날짜
@@ -321,16 +321,21 @@ class BackupFolderApp:
         
         # 상위 폴더 생성
         date_folder_path = os.path.join(base_path, date_str)
-        os.makedirs(date_folder_path, exist_ok=True)
-
-        for i in range(self.listbox.size()):
-            folder_name = self.listbox.get(i)
-            full_path = os.path.join(date_folder_path, folder_name)
-            os.makedirs(full_path, exist_ok=True)
         
-        tk.messagebox.showinfo("완료", "폴더 생성이 완료되었습니다.")
-        
-        self.root.quit()
+        # 이미 존재하는 폴더인지 확인
+        if os.path.exists(date_folder_path):
+            tk.messagebox.showwarning("경고", f"이미 '{date_str}' 폴더가 존재합니다!")
+        else:
+            os.makedirs(date_folder_path)
+            
+            for i in range(self.listbox.size()):
+                folder_name = self.listbox.get(i)
+                full_path = os.path.join(date_folder_path, folder_name)
+                os.makedirs(full_path, exist_ok=True)
+            
+            tk.messagebox.showinfo("완료", "폴더 생성이 완료되었습니다.")
+            
+            self.root.quit()
 
 
 # 앱 실행
