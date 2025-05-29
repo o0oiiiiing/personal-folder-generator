@@ -153,10 +153,17 @@ class BackupFolderApp:
             exe_dir = Path(__file__).parent
         
         log_file = exe_dir / "folder_log.json"
-
+    
         # 파일이 없으면 생성
         if not log_file.exists():
-            log_file.write_text("")  # 초기 내용 필요 시 설정 가능
+            data = {
+                "folder_names": [],
+                "last_selected_path": ""
+            }
+            
+            json_string = json.dumps(data, indent=4)
+            
+            log_file.write_text(json_string)
 
         return log_file
     
@@ -322,8 +329,18 @@ class BackupFolderApp:
         folder_names = [self.listbox.get(i) for i in range(self.listbox.size())]
         log_file = self.get_log_file_path()
         
-        with open(log_file, "w") as f:
-            json.dump({"folder_names": folder_names}, f, indent=4)
+        data = {}
+        if os.path.exists(log_file):
+            try:
+                with open(log_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError:
+                data = {}
+        
+        data["folder_names"] = folder_names
+        
+        with open(log_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
     
     # ───────────────────── 백업 폴더 생성 ─────────────────────        
     def create_backup_folders(self):
