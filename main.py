@@ -1,9 +1,12 @@
-import os # 파일 및 폴더 경로 조작을 위한 모듈
-import json # JSON 파일 읽기 및 쓰기를 위한 모듈
+import os, sys, json
 import tkinter as tk # GUI 애플리케이션을 만들기 위한 모듈
 from tkinter import font # 폰트 설정을 위한 모듈
 from tkinter import filedialog # 파일 대화상자를 위한 모듈
 from tkcalendar import DateEntry # 날짜 선택을 위한 모듈
+
+# PyInstaller 실행 환경에서 리소스 파일을 찾기 위해 임시 폴더로 이동
+if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+    os.chdir(sys._MEIPASS)
 
 class BackupFolderApp:
     # ───────────────────── 초기 설정 및 실행 ─────────────────────
