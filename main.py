@@ -3,6 +3,7 @@ import tkinter as tk # GUI 애플리케이션을 만들기 위한 모듈
 from tkinter import font # 폰트 설정을 위한 모듈
 from tkinter import filedialog # 파일 대화상자를 위한 모듈
 from tkcalendar import DateEntry # 날짜 선택을 위한 모듈
+from pathlib import Path # 파일 경로 작업을 위한 모듈
 
 # PyInstaller 실행 환경에서 리소스 파일을 찾기 위해 임시 폴더로 이동
 if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -136,6 +137,29 @@ class BackupFolderApp:
         close_btn = self.create_btn("닫기", self.root.quit, master=btn_frame)
         close_btn.pack(side=tk.LEFT, padx=20)
         
+    # ───────────────────── 로그 파일 경로 설정 ─────────────────────
+    def get_log_file_path(self):
+        """
+        실행 중인 환경에 따라 로그 파일의 경로를 반환하고, 파일이 없으면 새로 생성합니다.
+
+        Returns:
+            pathlib.Path: 로그 파일의 전체 경로 객체
+        """
+        if getattr(sys, 'frozen', False):
+            # PyInstaller로 빌드된 실행파일일 경우: 실행파일의 경로
+            exe_dir = Path(sys.executable).parent
+        else:
+            # 개발 중 실행할 경우: 현재 작업 디렉토리
+            exe_dir = Path(__file__).parent
+        
+        log_file = exe_dir / "folder_log.json"
+
+        # 파일이 없으면 생성
+        if not log_file.exists():
+            log_file.write_text("")  # 초기 내용 필요 시 설정 가능
+
+        return log_file
+    
     # ───────────────────── 저장된 폴더 이름 불러오기 ─────────────────────
     def load_saved_settings(self):
         """
@@ -147,7 +171,7 @@ class BackupFolderApp:
             - 'last_selected_path' 키를 기준으로 이전에 선택한 폴더 경로를 가져옵니다.
             - JSON 형식 오류가 있을 경우 예외를 무시하고 종료합니다.
         """ 
-        log_file = "folder_log.json"
+        log_file = self.get_log_file_path()
         if os.path.exists(log_file):
             try:
                 with open(log_file, "r", encoding="utf-8") as f:
@@ -214,7 +238,7 @@ class BackupFolderApp:
         Args:
             folder_path (str): 사용자가 선택한 폴더 경로 문자열.
         """ 
-        log_file = "folder_log.json"
+        log_file = self.get_log_file_path()
         data = {}
 
         # 기존 데이터 읽기
@@ -296,7 +320,7 @@ class BackupFolderApp:
             - 'folder_log.json' 파일에 폴더 이름 리스트를 JSON 형식으로 기록합니다.
         """
         folder_names = [self.listbox.get(i) for i in range(self.listbox.size())]
-        log_file = "folder_log.json"
+        log_file = self.get_log_file_path()
         
         with open(log_file, "w") as f:
             json.dump({"folder_names": folder_names}, f, indent=4)
