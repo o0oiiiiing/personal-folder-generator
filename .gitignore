@@ -1,3 +1,8 @@
 # 로그 파일 무시
 /dist/folder_log.json
 folder_log.json
+
+# PyInstaller 빌드 파일 무시
+build/
+dist/
+main.spec
