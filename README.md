@@ -1,6 +1,5 @@
 <p align="center"><img align="center" width="500" src="./images/banner-light.png#gh-light-mode-only"/></p>
 <p align="center"><img align="center" width="500" src="./images/banner-dark.png#gh-dark-mode-only"/></p>
-<hr>
 <br>
 
 ## 👩🏻‍💻 프로젝트 소개
